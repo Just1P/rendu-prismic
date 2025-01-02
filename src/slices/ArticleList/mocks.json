@@ -1,0 +1,90 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Specific"
+						}
+					}
+				]
+			},
+			"articles": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"image",
+								{
+									"origin": {
+										"id": "main",
+										"url": "https://images.unsplash.com/photo-1471897488648-5eae4ac6686b",
+										"width": 3560,
+										"height": 5340
+									},
+									"url": "https://images.unsplash.com/photo-1471897488648-5eae4ac6686b",
+									"width": 3560,
+									"height": 5340,
+									"edit": {
+										"zoom": 1,
+										"crop": {
+											"x": 0,
+											"y": 0
+										},
+										"background": "transparent"
+									},
+									"credits": null,
+									"alt": null,
+									"__TYPE__": "ImageContent",
+									"thumbnails": {}
+								}
+							],
+							[
+								"articletitle",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "heading3",
+											"content": {
+												"text": "Chair"
+											}
+										}
+									]
+								}
+							],
+							[
+								"excerpt",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "eager",
+									"type": "Text"
+								}
+							],
+							[
+								"articlelink",
+								{
+									"__TYPE__": "LinkContent",
+									"key": "dbf4cfc4-0577-4941-a0f8-3cb5a66a2ece",
+									"value": {
+										"__TYPE__": "ExternalLink",
+										"url": "https://slicemachine.dev",
+										"text": "official"
+									}
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

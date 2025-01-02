@@ -4,7 +4,7 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type PageDocumentDataSlicesSlice = RichTextSlice;
+type PageDocumentDataSlicesSlice = never;
 
 /**
  * Content for Page documents
@@ -79,49 +79,168 @@ export type PageDocument<Lang extends string = string> =
 export type AllDocumentTypes = PageDocument;
 
 /**
- * Primary content in *RichText → Primary*
+ * Item in *ArticleList → Default → Primary → Articles*
  */
-export interface RichTextSliceDefaultPrimary {
+export interface ArticleListSliceDefaultPrimaryArticlesItem {
   /**
-   * Content field in *RichText → Primary*
+   * Image field in *ArticleList → Default → Primary → Articles*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article_list.default.primary.articles[].image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * ArticleTitle field in *ArticleList → Default → Primary → Articles*
    *
    * - **Field Type**: Rich Text
-   * - **Placeholder**: Lorem ipsum...
-   * - **API ID Path**: rich_text.primary.content
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article_list.default.primary.articles[].articletitle
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  content: prismic.RichTextField;
+  articletitle: prismic.RichTextField;
+
+  /**
+   * excerpt field in *ArticleList → Default → Primary → Articles*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article_list.default.primary.articles[].excerpt
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  excerpt: prismic.KeyTextField;
+
+  /**
+   * ArticleLink field in *ArticleList → Default → Primary → Articles*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article_list.default.primary.articles[].articlelink
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  articlelink: prismic.LinkField;
 }
 
 /**
- * Default variation for RichText Slice
+ * Primary content in *ArticleList → Default → Primary*
+ */
+export interface ArticleListSliceDefaultPrimary {
+  /**
+   * Title field in *ArticleList → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article_list.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Articles field in *ArticleList → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article_list.default.primary.articles[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  articles: prismic.GroupField<
+    Simplify<ArticleListSliceDefaultPrimaryArticlesItem>
+  >;
+}
+
+/**
+ * Default variation for ArticleList Slice
  *
  * - **API ID**: `default`
- * - **Description**: RichText
+ * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type RichTextSliceDefault = prismic.SharedSliceVariation<
+export type ArticleListSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Simplify<RichTextSliceDefaultPrimary>,
+  Simplify<ArticleListSliceDefaultPrimary>,
   never
 >;
 
 /**
- * Slice variation for *RichText*
+ * Slice variation for *ArticleList*
  */
-type RichTextSliceVariation = RichTextSliceDefault;
+type ArticleListSliceVariation = ArticleListSliceDefault;
 
 /**
- * RichText Shared Slice
+ * ArticleList Shared Slice
  *
- * - **API ID**: `rich_text`
- * - **Description**: RichText
+ * - **API ID**: `article_list`
+ * - **Description**: ArticleList
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type RichTextSlice = prismic.SharedSlice<
-  "rich_text",
-  RichTextSliceVariation
+export type ArticleListSlice = prismic.SharedSlice<
+  "article_list",
+  ArticleListSliceVariation
 >;
+
+/**
+ * Primary content in *Banner → Default → Primary*
+ */
+export interface BannerSliceDefaultPrimary {
+  /**
+   * Title field in *Banner → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: banner.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *Banner → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: banner.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  description: prismic.KeyTextField;
+
+  /**
+   * Bg Image field in *Banner → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: banner.default.primary.bg_image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  bg_image: prismic.ImageField<never>;
+}
+
+/**
+ * Default variation for Banner Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<BannerSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Banner*
+ */
+type BannerSliceVariation = BannerSliceDefault;
+
+/**
+ * Banner Shared Slice
+ *
+ * - **API ID**: `banner`
+ * - **Description**: Banner
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerSlice = prismic.SharedSlice<"banner", BannerSliceVariation>;
 
 declare module "@prismicio/client" {
   interface CreateClient {
@@ -131,16 +250,32 @@ declare module "@prismicio/client" {
     ): prismic.Client<AllDocumentTypes>;
   }
 
+  interface CreateWriteClient {
+    (
+      repositoryNameOrEndpoint: string,
+      options: prismic.WriteClientConfig,
+    ): prismic.WriteClient<AllDocumentTypes>;
+  }
+
+  interface CreateMigration {
+    (): prismic.Migration<AllDocumentTypes>;
+  }
+
   namespace Content {
     export type {
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
       AllDocumentTypes,
-      RichTextSlice,
-      RichTextSliceDefaultPrimary,
-      RichTextSliceVariation,
-      RichTextSliceDefault,
+      ArticleListSlice,
+      ArticleListSliceDefaultPrimaryArticlesItem,
+      ArticleListSliceDefaultPrimary,
+      ArticleListSliceVariation,
+      ArticleListSliceDefault,
+      BannerSlice,
+      BannerSliceDefaultPrimary,
+      BannerSliceVariation,
+      BannerSliceDefault,
     };
   }
 }
